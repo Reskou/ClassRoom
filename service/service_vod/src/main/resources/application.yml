@@ -1,0 +1,50 @@
+#服务端口
+server:
+  port: 8301
+
+#服务名
+spring:
+  application:
+    name: service_vod
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/glkt_vod?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+    gateway:
+      routes:
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/*/order/**
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    mapper-locations: classpath:mapper/*.xml
+
+
+tencent:
+  cos:
+    file:
+      region: ap-nanjing
+      secretid: AKIDHME7oNiy2urcihXGr28B5zkRG6wkXGuq
+      secretKey: 32BJVco8PenvPwSsmbPI3dXFjIZfcMwJ
+      bucketname: classroom-1310052741
+
